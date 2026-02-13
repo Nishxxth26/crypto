@@ -3,275 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Lab - Glassmorphism UI</title>
+    <title>Neon Crypto Lab - Final</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        /* Background with Animated Gradient */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
+        :root {
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --neon: #00f2fe;
+            --neon-pink: #e73c7e;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: #090a0f;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Particles Background */
+        .background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1b2735 0%, #090a0f 100%);
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(0, 242, 254, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 1.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
         .container {
-            width: 90%;
-            max-width: 1100px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
             text-align: center;
-            padding: 20px;
         }
 
-        h1 { font-size: 2.5rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.2); margin-bottom: 40px; }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            letter-spacing: 5px;
+            background: linear-gradient(to right, #fff, var(--neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+        }
 
-        /* Glassmorphism Card Style */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.15);
+        /* Dashboard Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--glass);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            padding: 40px;
-            transition: 0.4s ease;
-        }
-
-        /* Dashboard Grid */
-        #main-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        
-        .menu-box {
-            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
             border-radius: 20px;
             padding: 30px;
             cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .menu-box:hover {
-            background: rgba(255, 255, 255, 0.25);
+        .card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-color: var(--neon);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Exercise Views */
-        .exercise-view { display: none; animation: slideUp 0.5s ease-out; }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .card h2 { font-family: 'Orbitron', sans-serif; color: var(--neon); margin: 0 0 10px 0; }
+
+        /* Exercise Content Area */
+        .exercise-view {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
         .back-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
+            background: transparent;
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            padding: 10px 25px;
+            border-radius: 50px;
             cursor: pointer;
-            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 30px;
             transition: 0.3s;
         }
-        .back-btn:hover { background: rgba(255,255,255,0.4); }
 
-        .grid-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        
+        .back-btn:hover { background: var(--neon-pink); color: white; box-shadow: 0 0 15px var(--neon-pink); }
+
+        .algo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
         .algo-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            padding: 25px;
             border-radius: 15px;
             text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         input {
             width: 100%;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
             padding: 12px;
             border-radius: 8px;
             color: white;
-            margin: 10px 0;
+            margin: 8px 0;
             outline: none;
         }
-        input::placeholder { color: rgba(255,255,255,0.7); }
 
-        button.action-btn {
+        input:focus { border-color: var(--neon); }
+
+        .action-btn {
             width: 100%;
-            padding: 12px;
+            background: linear-gradient(45deg, var(--neon), #4facfe);
             border: none;
+            padding: 12px;
             border-radius: 8px;
-            background: #ffffff;
-            color: #e73c7e;
+            color: #000;
             font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
             cursor: pointer;
-            transition: 0.3s;
             margin-top: 10px;
         }
-        button.action-btn:hover { background: #ffd1e3; transform: scale(1.02); }
 
         .result {
             margin-top: 15px;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            background: rgba(0,0,0,0.4);
             border-radius: 8px;
-            font-family: monospace;
+            border-left: 4px solid var(--neon);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
             min-height: 20px;
-            word-break: break-all;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+    <div class="background" id="bg-particles"></div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="dashboard-view">
-        <h1>Crypto Lab Dashboard</h1>
-        <div id="main-dashboard">
-            <div class="menu-box glass-card" onclick="openExercise(1)">
-                <h2>Exercise 1</h2>
-                <p>Vigenere & Affine Ciphers</p>
+    <div class="container">
+        <!-- HEADER -->
+        <div id="home-view">
+            <h1>NEON CRYPTO LAB</h1>
+            <div class="dashboard-grid">
+                <div class="card" onclick="showEx(1)">
+                    <h2>EX 01</h2>
+                    <p>Vigenere & Affine Ciphers</p>
+                </div>
+                <div class="card" onclick="showEx(2)">
+                    <h2>EX 02</h2>
+                    <p>Playfair Substitution</p>
+                </div>
+                <div class="card" onclick="showEx(3)">
+                    <h2>EX 03</h2>
+                    <p>Number Theory Lab</p>
+                </div>
             </div>
-            <div class="menu-box glass-card" onclick="openExercise(2)">
-                <h2>Exercise 2</h2>
-                <p>Playfair Algorithm</p>
-            </div>
-            <div class="menu-box glass-card" onclick="openExercise(3)">
-                <h2>Exercise 3</h2>
-                <p>Number Theory (GCD, Prime)</p>
-            </div>
+        </div>
+
+        <!-- EXERCISE CONTAINER -->
+        <div id="ex-container" class="exercise-view">
+            <button class="back-btn" onclick="showHome()">← BACK TO DASHBOARD</button>
+            <div id="ex-content" class="algo-grid"></div>
         </div>
     </div>
 
-    <!-- EXERCISE 1 -->
-    <div id="ex-1" class="exercise-view glass-card">
-        <button class="back-btn" onclick="goHome()">← Back</button>
-        <h2>Exercise 1: Classical Ciphers</h2>
-        <div class="grid-content">
-            <div class="algo-box">
-                <h3>Vigenere</h3>
-                <input type="text" id="vT" placeholder="Text">
-                <input type="text" id="vK" placeholder="Key">
-                <button class="action-btn" onclick="vigenere(true)">Encrypt</button>
-                <div id="vR" class="result"></div>
-            </div>
-            <div class="algo-box">
-                <h3>Affine</h3>
-                <input type="text" id="aT" placeholder="Text">
-                <input type="number" id="aA" placeholder="Key a (e.g. 5)">
-                <input type="number" id="aB" placeholder="Key b (e.g. 8)">
-                <button class="action-btn" onclick="affine(true)">Encrypt</button>
-                <div id="aR" class="result"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- EXERCISE 2 -->
-    <div id="ex-2" class="exercise-view glass-card">
-        <button class="back-btn" onclick="goHome()">← Back</button>
-        <h2>Exercise 2: Playfair Cipher</h2>
-        <div class="algo-box">
-            <input type="text" id="pT" placeholder="Text">
-            <input type="text" id="pK" placeholder="Key">
-            <button class="action-btn" onclick="playfair(true)">Encrypt</button>
-            <div id="pR" class="result"></div>
-        </div>
-    </div>
-
-    <!-- EXERCISE 3 -->
-    <div id="ex-3" class="exercise-view glass-card">
-        <button class="back-btn" onclick="goHome()">← Back</button>
-        <h2>Exercise 3: Number Theory</h2>
-        <div class="grid-content">
-            <div class="algo-box">
-                <h3>Miller-Rabin</h3>
-                <input type="number" id="mrInput" placeholder="Number">
-                <button class="action-btn" onclick="runMR()">Check Prime</button>
-                <div id="mrRes" class="result"></div>
-            </div>
-            <div class="algo-box">
-                <h3>Euclidean GCD</h3>
-                <input type="number" id="gA" placeholder="A">
-                <input type="number" id="gB" placeholder="B">
-                <button class="action-btn" onclick="runGCD()">Find GCD</button>
-                <div id="gRes" class="result"></div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    function openExercise(n) {
-        document.getElementById('dashboard-view').style.display = 'none';
-        document.getElementById('ex-' + n).style.display = 'block';
-    }
-    function goHome() {
-        document.querySelectorAll('.exercise-view').forEach(v => v.style.display = 'none');
-        document.getElementById('dashboard-view').style.display = 'block';
-    }
-
-    // Logic remains same as previous but integrated into new UI
-    function vigenere(e){
-        let t=document.getElementById('vT').value.toUpperCase().replace(/[^A-Z]/g,''),
-            k=document.getElementById('vK').value.toUpperCase().replace(/[^A-Z]/g,''),r="";
-        if(!k) return;
-        for(let i=0,j=0;i<t.length;i++){
-            let c=t.charCodeAt(i)-65, key=k.charCodeAt(j%k.length)-65;
-            r+=String.fromCharCode((c+key)%26+65); j++;
+    <script>
+        // Background Particles Logic
+        const bg = document.getElementById('bg-particles');
+        for (let i = 0; i < 40; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.width = Math.random() * 4 + 'px';
+            p.style.height = p.style.width;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 8 + 7) + 's';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            bg.appendChild(p);
         }
-        document.getElementById('vR').innerText=r;
-    }
 
-    function affine(e){
-        let t=document.getElementById('aT').value.toUpperCase().replace(/[^A-Z]/g,''),
-            a=parseInt(document.getElementById('aA').value), b=parseInt(document.getElementById('aB').value), r="";
-        for(let i=0;i<t.length;i++){
-            let x=t.charCodeAt(i)-65;
-            r+=String.fromCharCode((a*x+b)%26+65);
+        function showEx(n) {
+            document.getElementById('home-view').style.display = 'none';
+            const container = document.getElementById('ex-container');
+            const content = document.getElementById('ex-content');
+            container.style.display = 'block';
+
+            if(n === 1) {
+                content.innerHTML = `
+                    <div class="algo-box">
+                        <h3>Vigenere Cipher</h3>
+                        <input id="vT" placeholder="Plaintext">
+                        <input id="vK" placeholder="Key">
+                        <button class="action-btn" onclick="doVig()">ENCRYPT</button>
+                        <div id="vR" class="result">Result: -</div>
+                    </div>
+                    <div class="algo-box">
+                        <h3>Affine Cipher</h3>
+                        <input id="aT" placeholder="Plaintext">
+                        <input type="number" id="aA" placeholder="Key a (e.g. 5)">
+                        <input type="number" id="aB" placeholder="Key b (e.g. 8)">
+                        <button class="action-btn" onclick="doAff()">ENCRYPT</button>
+                        <div id="aR" class="result">Result: -</div>
+                    </div>`;
+            } else if(n === 2) {
+                content.innerHTML = `
+                    <div class="algo-box" style="grid-column: 1/-1">
+                        <h3>Playfair Cipher</h3>
+                        <input id="pT" placeholder="Plaintext">
+                        <input id="pK" placeholder="Key">
+                        <button class="action-btn" onclick="doPF()">PROCESS</button>
+                        <div id="pR" class="result">Result: -</div>
+                    </div>`;
+            } else if(n === 3) {
+                content.innerHTML = `
+                    <div class="algo-box">
+                        <h3>Miller-Rabin</h3>
+                        <input id="mI" type="number" placeholder="Enter number">
+                        <button class="action-btn" onclick="doMR()">PRIME TEST</button>
+                        <div id="mR" class="result">Result: -</div>
+                    </div>
+                    <div class="algo-box">
+                        <h3>Euclidean GCD</h3>
+                        <input id="gA" type="number" placeholder="Number A">
+                        <input id="gB" type="number" placeholder="Number B">
+                        <button class="action-btn" onclick="doGCD()">FIND GCD</button>
+                        <div id="gR" class="result">Result: -</div>
+                    </div>
+                    <div class="algo-box">
+                        <h3>Fermat Theorem</h3>
+                        <p style="font-size:12px">a<sup>p-1</sup> ≡ 1 (mod p)</p>
+                        <input id="fA" type="number" placeholder="Base (a)">
+                        <input id="fP" type="number" placeholder="Prime (p)">
+                        <button class="action-btn" onclick="doFermat()">VERIFY</button>
+                        <div id="fRes" class="result">Result: -</div>
+                    </div>`;
+            }
         }
-        document.getElementById('aR').innerText=r;
-    }
 
-    function playfair(e){
-        let k=document.getElementById('pK').value.toUpperCase().replace(/J/g,'I').replace(/[^A-Z]/g,''),
-            t=document.getElementById('pT').value.toUpperCase().replace(/J/g,'I').replace(/[^A-Z]/g,''),
-            m=[], alpha="ABCDEFGHIKLMNOPQRSTUVWXYZ", set=new Set(k+alpha), fKey=Array.from(set);
-        while(fKey.length) m.push(fKey.splice(0,5));
-        let prep=""; for(let i=0;i<t.length;i++){ prep+=t[i]; if(t[i]===t[i+1]) prep+='X'; }
-        if(prep.length%2!==0) prep+='X';
-        let res="";
-        for(let i=0; i<prep.length; i+=2){
-            let a=prep[i], b=prep[i+1], r1,c1,r2,c2;
-            for(let r=0;r<5;r++) for(let c=0;c<5;c++) { if(m[r][c]===a){r1=r;c1=c} if(m[r][c]===b){r2=r;c2=c} }
-            if(r1===r2) res+=m[r1][(c1+1)%5]+m[r2][(c2+1)%5];
-            else if(c1===c2) res+=m[(r1+1)%5][c1]+m[(r2+1)%5][c2];
-            else res+=m[r1][c2]+m[r2][c1];
+        function showHome() {
+            document.getElementById('ex-container').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
         }
-        document.getElementById('pR').innerText=res;
-    }
 
-    function runGCD(){
-        let a=BigInt(document.getElementById('gA').value||0), b=BigInt(document.getElementById('gB').value||0);
-        while(b!==0n){let t=b; b=a%b; a=t;}
-        document.getElementById('gRes').innerText="GCD: "+a;
-    }
+        // --- CRYPTO LOGIC ---
+        function expMod(b, e, m) {
+            let res = 1n; b = BigInt(b) % BigInt(m); e = BigInt(e);
+            while (e > 0n) { if (e % 2n === 1n) res = (res * b) % BigInt(m); b = (b * b) % BigInt(m); e /= 2n; }
+            return res;
+        }
 
-    function runMR(){
-        let n=BigInt(document.getElementById('mrInput').value||0);
-        if(n<2n){document.getElementById('mrRes').innerText="No"; return;}
-        let d=n-1n; while(d%2n===0n) d/=2n;
-        let x=BigInt(Math.pow(2, Number(d))) % n; // Simplified for demo
-        document.getElementById('mrRes').innerText=(x===1n||x===n-1n)?"Probably Prime":"Composite";
-    }
-</script>
+        function doVig() {
+            let t = document.getElementById('vT').value.toUpperCase().replace(/[^A-Z]/g,''),
+                k = document.getElementById('vK').value.toUpperCase().replace(/[^A-Z]/g,''), r = "";
+            if(!k) return;
+            for(let i=0, j=0; i<t.length; i++) {
+                r += String.fromCharCode((t.charCodeAt(i)-65 + k.charCodeAt(j%k.length)-65)%26+65); j++;
+            }
+            document.getElementById('vR').innerText = "Output: " + r;
+        }
+
+        function doAff() {
+            let t = document.getElementById('aT').value.toUpperCase().replace(/[^A-Z]/g,''),
+                a = parseInt(document.getElementById('aA').value), b = parseInt(document.getElementById('aB').value), r = "";
+            for(let i=0; i<t.length; i++) r += String.fromCharCode((a*(t.charCodeAt(i)-65)+b)%26+65);
+            document.getElementById('aR').innerText = "Output: " + r;
+        }
+
+        function doPF() {
+            let k = document.getElementById('pK').value.toUpperCase().replace(/J/g,'I').replace(/[^A-Z]/g,''),
+                t = document.getElementById('pT').value.toUpperCase().replace(/J/g,'I').replace(/[^A-Z]/g,''),
+                m = [], alpha = "ABCDEFGHIKLMNOPQRSTUVWXYZ", set = new Set(k + alpha), fK = Array.from(set);
+            while(fK.length) m.push(fK.splice(0,5));
+            let p = ""; for(let i=0; i<t.length; i++) { p += t[i]; if(t[i] === t[i+1]) p += 'X'; }
+            if(p.length % 2 !== 0) p += 'X';
+            let res = "";
+            for(let i=0; i<p.length; i+=2) {
+                let a=p[i], b=p[i+1], r1,c1,r2,c2;
+                for(let r=0; r<5; r++) for(let c=0; c<5; c++) { if(m[r][c]===a){r1=r;c1=c} if(m[r][c]===b){r2=r;c2=c} }
+                if(r1===r2) res += m[r1][(c1+1)%5]+m[r2][(c2+1)%5];
+                else if(c1===c2) res += m[(r1+1)%5][c1]+m[(r2+1)%5][c2];
+                else res += m[r1][c2]+m[r2][c1];
+            }
+            document.getElementById('pR').innerText = "Output: " + res;
+        }
+
+        function doMR() {
+            let n = BigInt(document.getElementById('mI').value || 0);
+            if(n < 2n) { document.getElementById('mR').innerText = "Neither"; return; }
+            let d = n - 1n; while(d % 2n === 0n) d /= 2n;
+            let x = expMod(2n, d, n);
+            document.getElementById('mR').innerText = (x === 1n || x === n - 1n) ? "Probably Prime" : "Composite";
+        }
+
+        function doGCD() {
+            let a = BigInt(document.getElementById('gA').value || 0), b = BigInt(document.getElementById('gB').value || 0);
+            while(b !== 0n) { let t = b; b = a % b; a = t; }
+            document.getElementById('gR').innerText = "GCD: " + a;
+        }
+
+        function doFermat() {
+            let a = BigInt(document.getElementById('fA').value || 0), p = BigInt(document.getElementById('fP').value || 0);
+            if(p < 2n) { document.getElementById('fRes').innerText = "P must be prime"; return; }
+            let r = expMod(a, p - 1n, p);
+            document.getElementById('fRes').innerText = "Result: " + r + (r === 1n ? " (Verified ✅)" : " (Fails ❌)");
+        }
+    </script>
 </body>
 </html>
