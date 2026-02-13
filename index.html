@@ -3,146 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Lab - Exercises</title>
+    <title>Crypto Lab Exercises</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f9; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        h1 { color: #1a73e8; margin-bottom: 30px; }
         
-        /* Main Menu Style */
-        #main-menu { text-align: center; margin-top: 100px; }
-        .menu-btn { background-color: #1a73e8; color: white; border: none; padding: 20px 40px; border-radius: 12px; font-size: 20px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .menu-btn:hover { background-color: #1557b0; transform: scale(1.05); }
+        /* Menu Buttons */
+        .menu-container { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center; }
+        .menu-btn { background-color: #ffffff; color: #1a73e8; border: 2px solid #1a73e8; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .menu-btn:hover, .menu-btn.active { background-color: #1a73e8; color: white; }
 
-        /* Exercise Section Style */
-        #exercise-2 { display: none; width: 100%; max-width: 1100px; }
-        .back-btn { background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; }
+        /* Exercise Sections */
+        .exercise-section { display: none; width: 100%; max-width: 1100px; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
+        .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border-top: 5px solid #1a73e8; }
         
-        h1 { color: #1a73e8; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        h3 { color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        button.action-btn { background-color: #1a73e8; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; }
+        h3 { color: #333; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        label { display: block; text-align: left; font-size: 14px; margin-top: 10px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 10px; margin: 5px 0 15px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
         
-        .result { margin-top: 20px; font-weight: bold; min-height: 24px; color: #555; }
-        .highlight { color: #28a745; }
-        .error { color: #dc3545; }
+        .btn-group { display: flex; gap: 10px; }
+        button.action-btn { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .enc-btn { background-color: #28a745; color: white; }
+        .dec-btn { background-color: #dc3545; color: white; }
+        .calc-btn { background-color: #1a73e8; color: white; width: 100%; }
+
+        .result-box { margin-top: 15px; padding: 10px; background: #f8f9fa; border-left: 4px solid #1a73e8; word-break: break-all; font-family: monospace; min-height: 20px; }
     </style>
 </head>
 <body>
 
-    <!-- SECTION 1: Main Menu -->
-    <div id="main-menu">
-        <h1>Cryptography Laboratory</h1>
-        <p>Select an exercise to begin</p>
-        <button class="menu-btn" onclick="showExercise()">Exercise 3: Public Key Algorithms</button>
+    <h1>Cryptography Laboratory</h1>
+
+    <!-- Tab Navigation -->
+    <div class="menu-container">
+        <button class="menu-btn" onclick="openExercise(1)">Exercise 1: Classical Ciphers</button>
+        <button class="menu-btn" onclick="openExercise(2)">Exercise 2: Playfair Cipher</button>
+        <button class="menu-btn" onclick="openExercise(3)">Exercise 3: Number Theory</button>
     </div>
 
-    <!-- SECTION 2: Exercise 2 Content (Initially Hidden) -->
-    <div id="exercise-2">
-        <button class="back-btn" onclick="showMenu()">← Back to Menu</button>
-        <h1>Exercise 2</h1>
-        
+    <!-- EXERCISE 1 -->
+    <div id="ex-1" class="exercise-section">
         <div class="grid">
-            <!-- Box 1: Miller-Rabin -->
+            <div class="box">
+                <h3>Vigenere Cipher</h3>
+                <label>Text:</label>
+                <input type="text" id="vigenereText" placeholder="HELLO">
+                <label>Key:</label>
+                <input type="text" id="vigenereKey" placeholder="KEY">
+                <div class="btn-group">
+                    <button class="action-btn enc-btn" onclick="vigenere(true)">Encrypt</button>
+                    <button class="action-btn dec-btn" onclick="vigenere(false)">Decrypt</button>
+                </div>
+                <div id="vigenereRes" class="result-box"></div>
+            </div>
+            <div class="box">
+                <h3>Affine Cipher</h3>
+                <label>Text:</label>
+                <input type="text" id="affineText" placeholder="HELLO">
+                <label>Key a (must be coprime to 26):</label>
+                <input type="number" id="affineA" value="5">
+                <label>Key b:</label>
+                <input type="number" id="affineB" value="8">
+                <div class="btn-group">
+                    <button class="action-btn enc-btn" onclick="affine(true)">Encrypt</button>
+                    <button class="action-btn dec-btn" onclick="affine(false)">Decrypt</button>
+                </div>
+                <div id="affineRes" class="result-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXERCISE 2 -->
+    <div id="ex-2" class="exercise-section">
+        <div class="grid">
+            <div class="box" style="grid-column: 1 / -1;">
+                <h3>Playfair Cipher</h3>
+                <label>Plaintext/Ciphertext:</label>
+                <input type="text" id="pfText" placeholder="INSTRUMENTS">
+                <label>Key:</label>
+                <input type="text" id="pfKey" placeholder="MONARCHY">
+                <div class="btn-group">
+                    <button class="action-btn enc-btn" onclick="playfair(true)">Encrypt</button>
+                    <button class="action-btn dec-btn" onclick="playfair(false)">Decrypt</button>
+                </div>
+                <div id="pfRes" class="result-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXERCISE 3 -->
+    <div id="ex-3" class="exercise-section">
+        <div class="grid">
             <div class="box">
                 <h3>Miller-Rabin Test</h3>
-                <p>Primality Testing</p>
                 <input type="number" id="mrInput" placeholder="Enter number">
-                <button class="action-btn" onclick="runMillerRabin()">Check Prime</button>
-                <div id="mrResult" class="result"></div>
+                <button class="action-btn calc-btn" onclick="runMR()">Check Prime</button>
+                <div id="mrRes" class="result-box"></div>
             </div>
-
-            <!-- Box 2: Euclidean GCD -->
             <div class="box">
-                <h3>Euclidean Algorithm</h3>
-                <p>Find GCD of A and B</p>
-                <input type="number" id="gcdA" placeholder="Number A">
-                <input type="number" id="gcdB" placeholder="Number B">
-                <button class="action-btn" onclick="runGCD()">Find GCD</button>
-                <div id="gcdResult" class="result"></div>
+                <h3>Euclidean GCD</h3>
+                <input type="number" id="gcdA" placeholder="Num A">
+                <input type="number" id="gcdB" placeholder="Num B">
+                <button class="action-btn calc-btn" onclick="runGCD()">Calculate</button>
+                <div id="gcdRes" class="result-box"></div>
             </div>
-
-            <!-- Box 3: Fermat's Theorem -->
             <div class="box">
-                <h3>Fermat Little Theorem</h3>
-                <p>Check a<sup>p-1</sup> ≡ 1 (mod p)</p>
-                <input type="number" id="fermatA" placeholder="Base (a)">
-                <input type="number" id="fermatP" placeholder="Prime (p)">
-                <button class="action-btn" onclick="runFermat()">Verify Theorem</button>
-                <div id="fermatResult" class="result"></div>
+                <h3>Fermat Theorem</h3>
+                <label>a^(p-1) mod p</label>
+                <input type="number" id="fA" placeholder="Base a">
+                <input type="number" id="fP" placeholder="Prime p">
+                <button class="action-btn calc-btn" onclick="runFermat()">Verify</button>
+                <div id="fRes" class="result-box"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- Navigation Logic ---
-        function showExercise() {
-            document.getElementById('main-menu').style.display = 'none';
-            document.getElementById('exercise-2').style.display = 'block';
+        // --- Navigation ---
+        function openExercise(num) {
+            document.querySelectorAll('.exercise-section').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('ex-' + num).style.display = 'block';
+            event.currentTarget.classList.add('active');
         }
 
-        function showMenu() {
-            document.getElementById('main-menu').style.display = 'block';
-            document.getElementById('exercise-2').style.display = 'none';
-        }
-
-        // --- Math Functions (BigInt based) ---
-        function power(a, b, m) {
-            let res = 1n;
-            a = BigInt(a) % BigInt(m);
-            b = BigInt(b);
-            let mBig = BigInt(m);
-            while (b > 0n) {
-                if (b % 2n === 1n) res = (res * a) % mBig;
-                a = (a * a) % mBig;
-                b = b / 2n;
+        // --- EX 1: Vigenere ---
+        function vigenere(enc) {
+            let text = document.getElementById('vigenereText').value.toUpperCase().replace(/[^A-Z]/g, '');
+            let key = document.getElementById('vigenereKey').value.toUpperCase().replace(/[^A-Z]/g, '');
+            let res = "";
+            for (let i = 0, j = 0; i < text.length; i++) {
+                let c = text.charCodeAt(i) - 65;
+                let k = key.charCodeAt(j % key.length) - 65;
+                res += String.fromCharCode(enc ? (c + k) % 26 + 65 : (c - k + 26) % 26 + 65);
+                j++;
             }
+            document.getElementById('vigenereRes').innerText = res;
+        }
+
+        // --- EX 1: Affine ---
+        function affine(enc) {
+            let text = document.getElementById('affineText').value.toUpperCase().replace(/[^A-Z]/g, '');
+            let a = parseInt(document.getElementById('affineA').value);
+            let b = parseInt(document.getElementById('affineB').value);
+            let res = "";
+            let a_inv = 0;
+            for (let i = 0; i < 26; i++) if ((a * i) % 26 == 1) a_inv = i;
+            
+            for (let i = 0; i < text.length; i++) {
+                let x = text.charCodeAt(i) - 65;
+                res += String.fromCharCode(enc ? (a * x + b) % 26 + 65 : (a_inv * (x - b + 26)) % 26 + 65);
+            }
+            document.getElementById('affineRes').innerText = res;
+        }
+
+        // --- EX 2: Playfair ---
+        function playfair(enc) {
+            let key = document.getElementById('pfKey').value.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let text = document.getElementById('pfText').value.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let matrix = [];
+            let alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+            let keySet = new Set(key + alphabet);
+            let finalKey = Array.from(keySet);
+            while(finalKey.length) matrix.push(finalKey.splice(0, 5));
+
+            // Prepare text
+            let prepared = "";
+            for(let i=0; i<text.length; i++) {
+                prepared += text[i];
+                if(enc && text[i] === text[i+1]) prepared += 'X';
+            }
+            if(prepared.length % 2 !== 0) prepared += 'X';
+
+            let res = "";
+            for(let i=0; i<prepared.length; i+=2) {
+                let a=prepared[i], b=prepared[i+1];
+                let r1, c1, r2, c2;
+                for(let r=0; r<5; r++) {
+                    for(let c=0; c<5; c++) {
+                        if(matrix[r][c] === a) { r1=r; c1=c; }
+                        if(matrix[r][c] === b) { r2=r; c2=c; }
+                    }
+                }
+                if(r1 === r2) {
+                    res += matrix[r1][(c1 + (enc?1:4)) % 5] + matrix[r2][(c2 + (enc?1:4)) % 5];
+                } else if(c1 === c2) {
+                    res += matrix[(r1 + (enc?1:4)) % 5][c1] + matrix[(r2 + (enc?1:4)) % 5][c2];
+                } else {
+                    res += matrix[r1][c2] + matrix[r2][c1];
+                }
+            }
+            document.getElementById('pfRes').innerText = res;
+        }
+
+        // --- EX 3: Logic (BigInt) ---
+        function expMod(base, exp, mod) {
+            let res = 1n; base = BigInt(base) % BigInt(mod); exp = BigInt(exp);
+            while (exp > 0n) { if (exp % 2n === 1n) res = (res * base) % BigInt(mod); base = (base * base) % BigInt(mod); exp /= 2n; }
             return res;
         }
-
-        function runMillerRabin() {
-            const val = document.getElementById('mrInput').value;
-            if(!val) return;
-            const n = BigInt(val);
-            const resultDiv = document.getElementById('mrResult');
-            if (n < 2n) { resultDiv.innerHTML = "Not Prime"; return; }
-            if (n === 2n || n === 3n) { resultDiv.innerHTML = "Prime"; return; }
-            let d = n - 1n; let s = 0n;
-            while (d % 2n === 0n) { d /= 2n; s++; }
-            let isPrime = true;
-            for (let i = 0; i < 5; i++) {
-                let a = BigInt(Math.floor(Math.random() * (Number(n) - 4)) + 2);
-                let x = power(a, d, n);
-                if (x === 1n || x === n - 1n) continue;
-                let composite = true;
-                for (let r = 1n; r < s; r++) {
-                    x = (x * x) % n;
-                    if (x === n - 1n) { composite = false; break; }
-                }
-                if (composite) { isPrime = false; break; }
-            }
-            resultDiv.innerHTML = isPrime ? `<span class="highlight">Prime</span>` : `<span class="error">Composite</span>`;
+        function runMR() {
+            let n = BigInt(document.getElementById('mrInput').value || 0);
+            if(n<2n) { document.getElementById('mrRes').innerText="Not Prime"; return; }
+            let d = n-1n; while(d%2n===0n) d/=2n;
+            let a = 2n; let x = expMod(a, d, n);
+            let isPrime = (x === 1n || x === n - 1n);
+            document.getElementById('mrRes').innerText = isPrime ? "Probably Prime" : "Composite";
         }
-
         function runGCD() {
             let a = BigInt(document.getElementById('gcdA').value || 0);
             let b = BigInt(document.getElementById('gcdB').value || 0);
-            const resultDiv = document.getElementById('gcdResult');
-            while (b !== 0n) { let temp = b; b = a % b; a = temp; }
-            resultDiv.innerHTML = `GCD = <span class="highlight">${a}</span>`;
+            while(b!==0n){ let t=b; b=a%b; a=t; }
+            document.getElementById('gcdRes').innerText = "GCD: " + a;
+        }
+        function runFermat() {
+            let a = BigInt(document.getElementById('fA').value || 0);
+            let p = BigInt(document.getElementById('fP').value || 0);
+            let res = expMod(a, p-1n, p);
+            document.getElementById('fRes').innerText = `Result: ${res} ` + (res===1n ? "✅":"❌");
         }
 
-        function runFermat() {
-            const a = BigInt(document.getElementById('fermatA').value || 0);
-            const p = BigInt(document.getElementById('fermatP').value || 0);
-            const resultDiv = document.getElementById('fermatResult');
-            if (p <= 1n) { resultDiv.innerHTML = "p must be > 1"; return; }
-            if (a % p === 0n) { resultDiv.innerHTML = "p divides a"; } 
-            else {
-                let res = power(a, p - 1n, p);
-                resultDiv.innerHTML = `Result: ${res} ` + (res === 1n ? "✅" : "❌");
-            }
-        }
+        // Default open
+        openExercise(1);
     </script>
 </body>
 </html>
