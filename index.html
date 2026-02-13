@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miller-Rabin Prime Checker</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .container { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 350px; }
+        h2 { color: #1a73e8; }
+        input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        button { background-color: #1a73e8; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 16px; width: 100%; }
+        button:hover { background-color: #1557b0; }
+        #result { margin-top: 20px; font-weight: bold; font-size: 18px; }
+        .prime { color: #28a745; }
+        .composite { color: #dc3545; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Prime Checker</h2>
+    <p>Miller-Rabin Algorithm</p>
+    <input type="number" id="numberInput" placeholder="Enter a number (e.g. 101)">
+    <button onclick="checkPrime()">Check Now</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    // Python-ல் உள்ள அதே logic-ஐ JavaScript-ல் மாற்றியுள்ளேன்
+    function power(a, b, m) {
+        let res = 1n;
+        a = BigInt(a) % BigInt(m);
+        b = BigInt(b);
+        let mBig = BigInt(m);
+        while (b > 0n) {
+            if (b % 2n === 1n) res = (res * a) % mBig;
+            a = (a * a) % mBig;
+            b = b / 2n;
+        }
+        return res;
+    }
+
+    function millerRabin(n, k = 10) {
+        if (n < 2n) return false;
+        if (n === 2n || n === 3n) return true;
+        if (n % 2n === 0n) return false;
+
+        let d = n - 1n;
+        let s = 0n;
+        while (d % 2n === 0n) {
+            d /= 2n;
+            s++;
+        }
+
+        for (let i = 0; i < k; i++) {
+            let a = BigInt(Math.floor(Math.random() * (Number(n) - 4)) + 2);
+            let x = power(a, d, n);
+
+            if (x === 1n || x === n - 1n) continue;
+
+            let composite = true;
+            for (let r = 1n; r < s; r++) {
+                x = (x * x) % n;
+                if (x === n - 1n) {
+                    composite = false;
+                    break;
+                }
+            }
+            if (composite) return false;
+        }
+        return true;
+    }
+
+    function checkPrime() {
+        const input = document.getElementById('numberInput').value;
+        const resultDiv = document.getElementById('result');
+        
+        if (!input) {
+            resultDiv.innerText = "Please enter a number!";
+            return;
+        }
+
+        const n = BigInt(input);
+        const isPrime = millerRabin(n);
+
+        if (isPrime) {
+            resultDiv.innerHTML = `<span class="prime">${n} is probably Prime! ✨</span>`;
+        } else {
+            resultDiv.innerHTML = `<span class="composite">${n} is Composite! ❌</span>`;
+        }
+    }
+</script>
+
+</body>
+</html>
