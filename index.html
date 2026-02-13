@@ -3,135 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Lab - Number Theory</title>
+    <title>Crypto Lab - Exercises</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        h1 { color: #1a73e8; margin-bottom: 30px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%; max-width: 1100px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        
+        /* Main Menu Style */
+        #main-menu { text-align: center; margin-top: 100px; }
+        .menu-btn { background-color: #1a73e8; color: white; border: none; padding: 20px 40px; border-radius: 12px; font-size: 20px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .menu-btn:hover { background-color: #1557b0; transform: scale(1.05); }
+
+        /* Exercise Section Style */
+        #exercise-2 { display: none; width: 100%; max-width: 1100px; }
+        .back-btn { background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; }
+        
+        h1 { color: #1a73e8; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
         .box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        h3 { color: #333; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
-        button { background-color: #1a73e8; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 16px; width: 100%; transition: 0.3s; }
-        button:hover { background-color: #1557b0; }
-        .result { margin-top: 20px; font-weight: bold; font-size: 16px; min-height: 24px; color: #555; }
+        h3 { color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button.action-btn { background-color: #1a73e8; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; }
+        
+        .result { margin-top: 20px; font-weight: bold; min-height: 24px; color: #555; }
         .highlight { color: #28a745; }
         .error { color: #dc3545; }
     </style>
 </head>
 <body>
 
-<h1>Cryptography Algorithms</h1>
-
-<div class="grid">
-    <!-- Box 1: Miller-Rabin -->
-    <div class="box">
-        <h3>1. Miller-Rabin Test</h3>
-        <p>Primality Testing</p>
-        <input type="number" id="mrInput" placeholder="Enter number (e.g. 101)">
-        <button onclick="runMillerRabin()">Check Prime</button>
-        <div id="mrResult" class="result"></div>
+    <!-- SECTION 1: Main Menu -->
+    <div id="main-menu">
+        <h1>Cryptography Laboratory</h1>
+        <p>Select an exercise to begin</p>
+        <button class="menu-btn" onclick="showExercise()">Exercise 2: Public Key Algorithms</button>
     </div>
 
-    <!-- Box 2: Euclidean GCD -->
-    <div class="box">
-        <h3>2. Euclidean Algorithm</h3>
-        <p>Find GCD of two numbers</p>
-        <input type="number" id="gcdA" placeholder="Number A">
-        <input type="number" id="gcdB" placeholder="Number B">
-        <button onclick="runGCD()">Find GCD</button>
-        <div id="gcdResult" class="result"></div>
+    <!-- SECTION 2: Exercise 2 Content (Initially Hidden) -->
+    <div id="exercise-2">
+        <button class="back-btn" onclick="showMenu()">← Back to Menu</button>
+        <h1>Exercise 2</h1>
+        
+        <div class="grid">
+            <!-- Box 1: Miller-Rabin -->
+            <div class="box">
+                <h3>Miller-Rabin Test</h3>
+                <p>Primality Testing</p>
+                <input type="number" id="mrInput" placeholder="Enter number">
+                <button class="action-btn" onclick="runMillerRabin()">Check Prime</button>
+                <div id="mrResult" class="result"></div>
+            </div>
+
+            <!-- Box 2: Euclidean GCD -->
+            <div class="box">
+                <h3>Euclidean Algorithm</h3>
+                <p>Find GCD of A and B</p>
+                <input type="number" id="gcdA" placeholder="Number A">
+                <input type="number" id="gcdB" placeholder="Number B">
+                <button class="action-btn" onclick="runGCD()">Find GCD</button>
+                <div id="gcdResult" class="result"></div>
+            </div>
+
+            <!-- Box 3: Fermat's Theorem -->
+            <div class="box">
+                <h3>Fermat Little Theorem</h3>
+                <p>Check a<sup>p-1</sup> ≡ 1 (mod p)</p>
+                <input type="number" id="fermatA" placeholder="Base (a)">
+                <input type="number" id="fermatP" placeholder="Prime (p)">
+                <button class="action-btn" onclick="runFermat()">Verify Theorem</button>
+                <div id="fermatResult" class="result"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- Box 3: Fermat's Theorem -->
-    <div class="box">
-        <h3>3. Fermat Little Theorem</h3>
-        <p>Check $a^{p-1} \equiv 1 \pmod{p}$</p>
-        <input type="number" id="fermatA" placeholder="Base (a)">
-        <input type="number" id="fermatP" placeholder="Prime (p)">
-        <button onclick="runFermat()">Verify Theorem</button>
-        <div id="fermatResult" class="result"></div>
-    </div>
-</div>
-
-<script>
-    // --- Helper: Modular Exponentiation ---
-    function power(a, b, m) {
-        let res = 1n;
-        a = BigInt(a) % BigInt(m);
-        b = BigInt(b);
-        let mBig = BigInt(m);
-        while (b > 0n) {
-            if (b % 2n === 1n) res = (res * a) % mBig;
-            a = (a * a) % mBig;
-            b = b / 2n;
+    <script>
+        // --- Navigation Logic ---
+        function showExercise() {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('exercise-2').style.display = 'block';
         }
-        return res;
-    }
 
-    // --- 1. Miller-Rabin ---
-    function runMillerRabin() {
-        const val = document.getElementById('mrInput').value;
-        if(!val) return;
-        const n = BigInt(val);
-        const resultDiv = document.getElementById('mrResult');
-        
-        if (n < 2n) { resultDiv.innerHTML = "Not Prime"; return; }
-        if (n === 2n || n === 3n) { resultDiv.innerHTML = "Prime"; return; }
-        
-        let d = n - 1n;
-        let s = 0n;
-        while (d % 2n === 0n) { d /= 2n; s++; }
+        function showMenu() {
+            document.getElementById('main-menu').style.display = 'block';
+            document.getElementById('exercise-2').style.display = 'none';
+        }
 
-        let isPrime = true;
-        for (let i = 0; i < 5; i++) {
-            let a = BigInt(Math.floor(Math.random() * (Number(n) - 4)) + 2);
-            let x = power(a, d, n);
-            if (x === 1n || x === n - 1n) continue;
-            let composite = true;
-            for (let r = 1n; r < s; r++) {
-                x = (x * x) % n;
-                if (x === n - 1n) { composite = false; break; }
+        // --- Math Functions (BigInt based) ---
+        function power(a, b, m) {
+            let res = 1n;
+            a = BigInt(a) % BigInt(m);
+            b = BigInt(b);
+            let mBig = BigInt(m);
+            while (b > 0n) {
+                if (b % 2n === 1n) res = (res * a) % mBig;
+                a = (a * a) % mBig;
+                b = b / 2n;
             }
-            if (composite) { isPrime = false; break; }
+            return res;
         }
-        resultDiv.innerHTML = isPrime ? `<span class="highlight">${n} is Prime</span>` : `<span class="error">${n} is Composite</span>`;
-    }
 
-    // --- 2. Euclidean GCD ---
-    function runGCD() {
-        let a = BigInt(document.getElementById('gcdA').value || 0);
-        let b = BigInt(document.getElementById('gcdB').value || 0);
-        const resultDiv = document.getElementById('gcdResult');
-
-        const originalA = a;
-        const originalB = b;
-
-        while (b !== 0n) {
-            let temp = b;
-            b = a % b;
-            a = temp;
+        function runMillerRabin() {
+            const val = document.getElementById('mrInput').value;
+            if(!val) return;
+            const n = BigInt(val);
+            const resultDiv = document.getElementById('mrResult');
+            if (n < 2n) { resultDiv.innerHTML = "Not Prime"; return; }
+            if (n === 2n || n === 3n) { resultDiv.innerHTML = "Prime"; return; }
+            let d = n - 1n; let s = 0n;
+            while (d % 2n === 0n) { d /= 2n; s++; }
+            let isPrime = true;
+            for (let i = 0; i < 5; i++) {
+                let a = BigInt(Math.floor(Math.random() * (Number(n) - 4)) + 2);
+                let x = power(a, d, n);
+                if (x === 1n || x === n - 1n) continue;
+                let composite = true;
+                for (let r = 1n; r < s; r++) {
+                    x = (x * x) % n;
+                    if (x === n - 1n) { composite = false; break; }
+                }
+                if (composite) { isPrime = false; break; }
+            }
+            resultDiv.innerHTML = isPrime ? `<span class="highlight">Prime</span>` : `<span class="error">Composite</span>`;
         }
-        resultDiv.innerHTML = `GCD(${originalA}, ${originalB}) = <span class="highlight">${a}</span>`;
-    }
 
-    // --- 3. Fermat's Little Theorem ---
-    function runFermat() {
-        const a = BigInt(document.getElementById('fermatA').value || 0);
-        const p = BigInt(document.getElementById('fermatP').value || 0);
-        const resultDiv = document.getElementById('fermatResult');
-
-        if (p <= 1n) { resultDiv.innerHTML = "p must be prime > 1"; return; }
-
-        // If p is prime and p does not divide a: a^(p-1) % p should be 1
-        if (a % p === 0n) {
-            resultDiv.innerHTML = `<span class="error">p divides a, theorem doesn't apply.</span>`;
-        } else {
-            let res = power(a, p - 1n, p);
-            resultDiv.innerHTML = `${a}^(${p}-1) mod ${p} = <span class="highlight">${res}</span><br>` + 
-                                 (res === 1n ? "✅ Theorem Verified" : "❌ Not a Prime");
+        function runGCD() {
+            let a = BigInt(document.getElementById('gcdA').value || 0);
+            let b = BigInt(document.getElementById('gcdB').value || 0);
+            const resultDiv = document.getElementById('gcdResult');
+            while (b !== 0n) { let temp = b; b = a % b; a = temp; }
+            resultDiv.innerHTML = `GCD = <span class="highlight">${a}</span>`;
         }
-    }
-</script>
 
+        function runFermat() {
+            const a = BigInt(document.getElementById('fermatA').value || 0);
+            const p = BigInt(document.getElementById('fermatP').value || 0);
+            const resultDiv = document.getElementById('fermatResult');
+            if (p <= 1n) { resultDiv.innerHTML = "p must be > 1"; return; }
+            if (a % p === 0n) { resultDiv.innerHTML = "p divides a"; } 
+            else {
+                let res = power(a, p - 1n, p);
+                resultDiv.innerHTML = `Result: ${res} ` + (res === 1n ? "✅" : "❌");
+            }
+        }
+    </script>
 </body>
 </html>
